@@ -1,0 +1,87 @@
+# Indice de Favorabilidade a Conservacao de Tubaroes em Surfistas de Florianopolis
+
+**Autor:** Bruna Morais  
+**Contato:** bruna.moraiss@gmail.com  
+**Instituicao:** Universidade Federal de Santa Catarina (UFSC) — Programa de Pós-Graduação em Ecologia  
+**Disciplina:** Open Science Workflow: ferramentas e práticas para pesquisa reprodutível com R e GitHub  
+**Professora:** Dra. Viviane Zulian  
+**Data:** Maio de 2026  
+
+**Licenca de codigo:** MIT  
+**Licenca de dados:** CC BY 4.0
+
+---
+
+## Sobre o projeto
+
+Este repositório contém os dados, scripts de análise e resultados do trabalho de conclusão de curso (TCC) focado na **favorabilidade de surfistas de Florianópolis à conservação de tubarões**.
+
+O objetivo principal é construir e validar um **Índice de Favorabilidade a Conservação** com base em entrevistas estruturadas aplicadas à comunidade de surfistas nas praias da Ilha de Santa Catarina (Florianópolis/SC), integrando dimensões emocionais e percepções de risco/conflito.
+
+---
+
+## Estrutura do repositorio
+Pesquisa de Mestrado/
+├── Data/
+│   ├── L0/    # Dados brutos originais (anonimizados, nunca modificar)
+│   └── L1/    # Dados processados e índices gerados pelos scripts
+├── Scripts/
+│   ├── 1a_limpar_dados.R           # Limpeza, padronização e consistência da base L0
+│   ├── 2a_calculo_indice.R         # Filtro psicométrico e cálculo do índice (Alpha = 0,60)
+│   └── 3_visualizacoes_graficos.R  # Geração de gráficos, boxplots e distribuições
+├── Results/   # Outputs visuais e relatórios gerados automaticamente (.png)
+├── Documents/ # Documentos de apoio (projeto, notas de campo)
+├── Images/    # Elementos visuais de suporte ao repositório
+└── README.md
+
+---
+
+## Fonte dos dados
+
+Os dados foram amostrados por meio de entrevistas com surfistas (*N* = 79) em praias de Florianópolis (SC). O instrumento de coleta cobriu variáveis sociodemográficas, histórico de surfe, percepção ecológica, score de risco à segurança e atitude afetiva em relação à presença local de tubarões.
+
+---
+
+## Logica e Validacao do Indice
+
+Após análise de consistência interna (Confiabilidade de Escala), o índice final foi otimizado para **3 variáveis estruturais em escala Likert (1 a 5)**, atingindo o limiar psicométrico aceitável (**Alpha de Cronbach = 0,60**). Essa arquitetura permitiu reter a dimensão atitudinal-emocional sem comprometer a robustez matemática do indicador.
+
+O índice final é a média das variáveis normalizadas (mín-max, de 0 a 1), onde valores próximos de 1 denotam **alta favorabilidade** à conservação.
+
+| Variável Original | Dimensão Analítica | Direção no Índice | Correlação Item-Total |
+|---|---|---|---|
+| `sentimento_floripa` | Atitude emocional / Afeto | Direta | 0,48 (Retida por peso teórico) |
+| `impacto_surf` | Percepção de conflito socioambiental | **Inversa** (Invertida para `_inv`) | 0,78 |
+| `risco_seguranca` | Percepção de risco físico | **Inversa** (Invertida para `_inv`) | 0,80 |
+
+> **Nota de Fluxo:** As variáveis de percepção ecológica geral, responsabilidade individual e educação foram testadas no pipeline inicial, mas removidas por reduzirem a consistência interna da escala abaixo do limiar estatístico de corte.
+
+---
+
+## Sumário dos Resultados Obtidos
+
+Ao rodar a pipeline completa, os seguintes parâmetros descritivos são extraídos da amostra (*N* = 79):
+* **Média do Índice:** 0,548 (comportamento moderadamente favorável)
+* **Mediana:** 0,533
+* **Desvio Padrão:** 0,231
+* **Distribuição de Categorias:** Alta favorabilidade (26), Média favorabilidade (37), Baixa favorabilidade (16).
+
+---
+
+## Como reproduzir as analises
+
+Para garantir a reprodutibilidade estrita deste fluxo sob os princípios de Ciência Aberta, siga os passos abaixo:
+
+1. Clone este repositório ou baixe o diretório completo.
+2. Certifique-se de abrir o projeto através do arquivo `.Rproj` para que o ambiente de caminhos relativos (`here` workflow) seja configurado automaticamente.
+3. Execute os códigos presentes na pasta `Scripts/` seguindo rigorosamente a ordem sequencial:
+
+```r
+source("Scripts/1a_limpar_dados.R")
+source("Scripts/2a_calculo_indice.R")
+source("Scripts/3_visualizacoes_graficos.R")
+Pacotes necessários
+O ambiente de análise depende do ecossistema tidyverse e ferramentas de leitura/escrita de arquivos Excel. Você pode instalar as dependências copiando o comando abaixo no console do seu R:
+
+R
+install.packages(c("dplyr", "readxl", "writexl", "ggplot2"))
