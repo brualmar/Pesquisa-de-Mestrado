@@ -1,0 +1,185 @@
+---
+title: "Favorabilidade à Conservação de Tubarões em Florianópolis"
+subtitle: "Relatório Final - Disciplina Open Science Workflow (UFSC)"
+author: "Bruna Morais"
+date: "`r format(Sys.time(), '%d de %B de %Y')`"
+
+output:
+  html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+# Configuração global dos chunks
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+
+# Carregamento dos pacotes
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(knitr)
+```
+
+# Introdução
+
+Este relatório apresenta os resultados da investigação sobre a favorabilidade de surfistas de Florianópolis (SC) em relação à conservação de tubarões. Como cientista e ativista, este projeto foi estruturado seguindo os princípios de Ciência Aberta (*Open Science*), garantindo que qualquer pesquisador possa replicar este fluxo de trabalho do início ao fim.
+
+# Metodologia
+
+A amostragem consistiu em entrevistas estruturadas com 79 surfistas. Para medir a favorabilidade, foi construído um índice psicométrico baseado em três variáveis principais, posteriormente validado estatisticamente.
+
+## Importação dos Dados
+
+```{r importacao-dados}
+# Como o arquivo .Rmd está dentro da pasta 'Scripts/',
+# utilizamos '../' para acessar a pasta 'Data'
+
+dados <- read_excel("../Data/L1/dados_com_indice.xlsx")
+```
+
+# Validação do Índice
+
+O modelo final atingiu um Alpha de Cronbach de 0,60, considerado o limiar mínimo aceitável para estudos de percepção social.
+
+As variáveis utilizadas na composição do índice foram:
+
+- **Sentimento:** atitude emocional (*direta*);
+- **Impacto no Surf:** percepção de conflito (*inversa*);
+- **Segurança:** percepção de risco (*inversa*).
+
+# Resultados Descritivos
+
+A seguir, apresenta-se o resumo estatístico do índice calculado, padronizado em escala de 0 a 1.
+
+```{r tabela-resumo}
+# Construção da tabela descritiva
+
+resumo <- data.frame(
+  Métrica = c(
+    "N de Entrevistados",
+    "Média",
+    "Mediana",
+    "Desvio Padrão",
+    "Mínimo",
+    "Máximo"
+  ),
+  
+  Valor = c(
+    nrow(dados),
+    round(mean(dados$indice_favorabilidade, na.rm = TRUE), 3),
+    round(median(dados$indice_favorabilidade, na.rm = TRUE), 3),
+    round(sd(dados$indice_favorabilidade, na.rm = TRUE), 3),
+    round(min(dados$indice_favorabilidade, na.rm = TRUE), 3),
+    round(max(dados$indice_favorabilidade, na.rm = TRUE), 3)
+  )
+)
+
+# Exibição da tabela
+
+kable(
+  resumo,
+  caption = "Tabela 1. Estatísticas descritivas do índice de favorabilidade."
+)
+```
+
+# Visualizações
+
+## Distribuição das Categorias
+
+O gráfico abaixo apresenta a distribuição dos entrevistados de acordo com o nível de favorabilidade calculado.
+
+```{r grafico-categorias, fig.width=8, fig.height=5}
+
+dados |>
+  
+  count(categoria_indice) |>
+  
+  mutate(
+    categoria_indice = factor(
+      categoria_indice,
+      levels = c(
+        "Alta favorabilidade",
+        "Media favorabilidade",
+        "Baixa favorabilidade"
+      )
+    )
+  ) |>
+  
+  ggplot(
+    aes(
+      x = categoria_indice,
+      y = n,
+      fill = categoria_indice
+    )
+  ) +
+  
+  geom_col(
+    show.legend = FALSE,
+    width = 0.7
+  ) +
+  
+  scale_fill_manual(
+    values = c(
+      "Alta favorabilidade" = "#1a7a4a",
+      "Media favorabilidade" = "#e8a020",
+      "Baixa favorabilidade" = "#c0392b"
+    )
+  ) +
+  
+  labs(
+    title = "Distribuição das Categorias de Favorabilidade",
+    x = NULL,
+    y = "Número de Surfistas"
+  ) +
+  
+  theme_minimal(base_size = 13)
+```
+
+## Relação entre Sentimento e Índice
+
+O boxplot abaixo demonstra como a percepção emocional individual dos participantes se relaciona com o índice final de favorabilidade.
+
+```{r boxplot-sentimento, fig.width=8, fig.height=5}
+
+ggplot(
+  dados,
+  aes(
+    x = as.factor(sentimento_floripa),
+    y = indice_favorabilidade
+  )
+) +
+  
+  geom_boxplot(
+    fill = "#2E5D9E",
+    alpha = 0.6
+  ) +
+  
+  geom_jitter(
+    width = 0.1,
+    alpha = 0.3
+  ) +
+  
+  labs(
+    title = "Índice de Favorabilidade por Percepção Atitudinal",
+    x = "Sentimento (Escala Likert 1–5)",
+    y = "Índice Final (0–1)"
+  ) +
+  
+  theme_minimal(base_size = 13)
+```
+
+# Considerações Finais
+
+A média obtida de 0,548 indica uma tendência moderadamente positiva em relação à conservação de tubarões. O fato de a maioria dos surfistas estar concentrada na categoria *Média Favorabilidade* sugere um cenário de coexistência possível, no qual estratégias de educação ambiental, divulgação científica e ativismo podem atuar diretamente na transformação de percepções de risco em apoio efetivo à conservação marinha.
+
+---
+
+*Relatório gerado para a disciplina de Open Science Workflow — UFSC (2026).*
