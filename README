@@ -43,6 +43,25 @@ Os dados foram amostrados por meio de entrevistas com surfistas (*N* = 79) em pr
 
 ---
 
+## Dicionário de Dados
+Variável | Descrição | Tipo | Escala
+
+ID|Identificador único do entrevistado|Numérico|Inteiro
+Sexo|Identidade de gênero declarada|Categórica| F/M/Outro
+Idade|Idade do entrevistado|Numérico|Anos
+Escolaridade|Nível de instrução formal|Categórica|Ensino Médio/Sup/Pós
+Praia|Praia onde a entrevista foi realizada|Categórica|Texto
+Tempo_Surf|Tempo de prática de surf|Numérico|Anos
+Frequencia_Surf|Frequência semanal de surf|Numérico|Dias/semana
+Experiencia_Encontro|Já teve encontro com tubarão?|Binária|Sim/Não
+Sentimento_Floripa|Atitude emocional (1-5)|Numérico|Likert
+Conhecimento_Ecol|Conhecimento ecológico (1-5)|Numérico|Likert
+Risco_Seguranca|Percepção de risco (1-5)|Numérico|Likert
+Impacto_Surf|Percepção de impacto (1-5)|Numérico|Likert
+Favorabilidade|Score final de favorabilidade|Numérico|0 a 1
+
+---
+
 ## Logica e Validacao do Indice
 
 Após análise de consistência interna (Confiabilidade de Escala), o índice final foi otimizado para **3 variáveis estruturais em escala Likert (1 a 5)**, atingindo o limiar psicométrico aceitável (**Alpha de Cronbach = 0,60**). Essa arquitetura permitiu reter a dimensão atitudinal-emocional sem comprometer a robustez matemática do indicador.
@@ -86,4 +105,9 @@ O ambiente de análise depende do ecossistema tidyverse e ferramentas de leitura
 
 R
 install.packages(c("dplyr", "readxl", "writexl", "ggplot2"))
+
+## Como citar
+Se você utilizar este repositório ou os dados aqui contidos em seu trabalho, por favor, utilize a seguinte citação:
+
+Morais, B. (2026). *Favorabilidade à conservação de tubarões em Florianópolis*. Repositório GitHub. Disponível em: https://github.com/brualmar/PAPER_surfistas_tubaroes
 
