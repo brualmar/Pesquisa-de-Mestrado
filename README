@@ -18,6 +18,7 @@ Este repositório contém os dados, scripts de análise e resultados do trabalho
 
 O objetivo principal é construir e validar um **Índice de Favorabilidade a Conservação** com base em entrevistas estruturadas aplicadas à comunidade de surfistas nas praias da Ilha de Santa Catarina (Florianópolis/SC), integrando dimensões emocionais e percepções de risco/conflito.
 
+Zenodo directory DOI: 10.5281/zenodo.20344050 
 ---
 
 ## Estrutura do repositorio
@@ -85,3 +86,4 @@ O ambiente de análise depende do ecossistema tidyverse e ferramentas de leitura
 
 R
 install.packages(c("dplyr", "readxl", "writexl", "ggplot2"))
+
